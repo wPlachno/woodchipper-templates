@@ -1,5 +1,6 @@
-import wcconstants as S
-from wcconstants import COLOR_DEFAULT, EMPTY
+from utilities import wcconstants as S
+from utilities.wcconstants import COLOR_DEFAULT
+
 
 # Our application uses WoodchipperNamespaces for data transfer
 # between the CLI and the Controller. These constants represent

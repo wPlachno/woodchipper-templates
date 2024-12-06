@@ -18,7 +18,7 @@ The information within the control tokens should be as easy-to-use as possible. 
 For ease of communication, we will give these sequences names: `start_sequence` is '@{', `delimiter` is '|', `text_trigger` is '}{{', and `end_sequence` is '}}'. 
 
 ### Interface
-Using Python, we can easily generate a basic CLI: 'py wctmp.py table.md', the script call with a single control file. The target file should be the file with the control tokens. Our interface should allow a list of control files. 
+Using Python, we can easily generate a basic CLI: 'py wctmp.py table.md', the script call with a single control file. The target file should be the file with the control tokens. Our interface should eventually allow a list of control files. 
 The output should be relatively simple, configurable with a verbosity flag. 0 means no output, 1 means just `success`/`fail`, 2 should include the file names, and 3 should print out all files involved. 
 There should also be a command line flag, `debug`, for marking that no files should be created or modified, for debugging the users control files.
 
@@ -28,3 +28,11 @@ We will need to have a parent class, `WoodchipperTemplatingFile`, which should h
 ### The Parse
 For each control file, we should open the file and read the text. We will have a stack `file_stack` on which we will be placing `WoodchipperTemplatingFile` objects. The first on the stack should be the `WoodchipperControlFile`. We will search through the text, waiting to find `start_sequence`. As soon as we find one, we find the first `text_trigger` and enter all the data between them into a `WoodchipperTokenFile` and add it to `file_stack`. Whenever we hit an `end_sequence`, we pop the last WCTF from `file_stack`, add the intermediary text as `file_content`, and add the WCTF to a `file_list` array. When this happens, we should also add the popped WCTF object's replacement text to the text of the now-top WCTF on the `file_stack`. 
 Once we reach the end of the file text, we add the `WoodchipperControlFile` to `file_list`. Then we save each WCTF in `file_list` and output as necessary.
+
+## Future Plans
+
+### Multiple Paths
+Our first run at the program will accept only one control file path from the CL each run. In order to support multiple paths from one call, `wcparser` will need to be modified to allow for 'bucket' arguments, arguments that provide an array of some sort, whether it be a specific number, or any positional arguments past that point.
+
+### Force Argument
+There may be times that we simply want to overwrite the files as we go. In our first write of this script, that will be safeguarded, not allowing a complete file creation if a non-control file exists. We should add a `-f` flag to force the program to proceed with the file overwrites. 

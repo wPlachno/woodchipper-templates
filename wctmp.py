@@ -1,9 +1,9 @@
 
 import sys
 
-from constants import MODE
-from wctmp_cli import WoodchipperTemplateCommandLineInterface as WCCLI
-from wctmp_controller import WoodchipperController as WCController
+from interface.constants import MODE
+from interface.wctmp_cli import WoodchipperTemplateCommandLineInterface as WCCLI
+from interface.wctmp_controller import WoodchipperController as WCController
 
 def _main(args):
     cli = WCCLI()

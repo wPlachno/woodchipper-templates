@@ -1,8 +1,8 @@
 import wctmp_request as WCParser
-from wcutil import WoodchipperSettingsFile as WCProfile
-from wcprinter import WoodchipperPrinter as WCPrinter
-from wcconstants import Verbosity
-from constants import MODE, OUT
+from utilities.wcutil import WoodchipperSettingsFile as WCProfile
+from utilities.wcprinter import WoodchipperPrinter as WCPrinter
+from utilities.wcconstants import Verbosity
+from interface.constants import MODE
 
 
 class WoodchipperTemplateCommandLineInterface:

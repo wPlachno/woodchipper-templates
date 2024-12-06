@@ -1,5 +1,6 @@
 from wcconstants import Verbosity
-import constants as C
+from interface import constants as C
+
 
 class WoodchipperPrinter:
     def __init__(self, verbosity=Verbosity.NORMAL):

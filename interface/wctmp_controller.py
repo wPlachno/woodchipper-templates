@@ -1,7 +1,5 @@
-from types import SimpleNamespace
+from utilities.wcutil import WoodchipperNamespace as WCNamespace
 
-from wcutil import WoodchipperNamespace as WCNamespace
-import constants as C
 
 class WoodchipperController:
     def __init__(self):
@@ -22,4 +20,6 @@ class WoodchipperController:
         self.results.add("debug", self.request.debug)
         self.results.add("path", self.request.path)
         self.results.add("files", [])
+
+    def _handle_request(self):
 
