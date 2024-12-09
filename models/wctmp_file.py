@@ -1,4 +1,6 @@
 import pathlib
+from utilities.wcutil import WoodchipperNamespace as WCNamespace
+from models.constants import KEY
 
 class WoodchipperTemplatingFile:
     def __init__(self, file_path):
@@ -24,3 +26,10 @@ class WoodchipperTemplatingFile:
 
     def add(self, text):
         self.content += text
+
+    def toNamespace(self):
+        ns = WCNamespace(self.name())
+        ns.add(KEY.FILE.NAME, self.name())
+        ns.add(KEY.FILE.PATH, self.path)
+        ns.add(KEY.FILE.CONTENT, self.content)
+        return ns

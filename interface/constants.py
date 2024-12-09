@@ -14,10 +14,12 @@ class KEY:
         DATA = "data"
 
     class RESULTS:
-        HANDLER = "handler"
         SUCCESS = "success"
         ERROR = "error"
+        DEBUG = "debug"
         FILES = "files"
+        CONTROL = "control"
+        EXPANDER = "expander"
 
     class FILE:
         NAME = "name"
@@ -29,12 +31,6 @@ class MODE:
     NONE = "none"
     TEST = "test"
     NORMAL = "normal"
-
-class TOKEN:
-    START = '@{'
-    DELIMITER = '|'
-    TEXT = "}{{"
-    END = '}}'
 
 
 # In this implementation of the CLI, we associate certain colors with certain constructs.
@@ -59,9 +55,22 @@ class TAG: # .format() required
         PATH = clr(S.OP1, COLOR.PATH)
         CONTENT = clr(S.OP2, COLOR.CONTENT)
 
+    SUCCESS = clr("SUCCESS", COLOR.SUCCESS)
+    FAILURE = clr("FAILURE", COLOR.ERROR)
+    ERROR = clr("ERROR:", COLOR.ERROR)
+
 class ERROR:
-    class COULD_NOT_RESOLVE:
-        TOOLKIT = f"There exists no {clr("Toolkit", COLOR.SUCCESS)} named '{S.OP0}'." # (target_toolkit)
+    class NO_CONTROL_FILE:
+        CODE = "786770"
+        DESCRIPTION = [
+                S.EMPTY,                        # V0: SILENT
+                TAG.FAILURE,                    # V1: RESULTS_ONLY, either SUCCESS or FAILURE
+                f"{TAG.ERROR} Please provide the path to a {clr("Control", COLOR.NAME)} file.",     # V2: Normal user
+                f"{TAG.ERROR} No {clr("Control", COLOR.NAME)} file provided."]     # V3: DEBUG
+
+    CODE = {
+        "786770": NO_CONTROL_FILE.DESCRIPTION
+    }
 
 class OUT:
     ERROR = clr("ERROR: ", COLOR.ERROR)+S.OP0+S.NL

@@ -1,4 +1,4 @@
-from wcconstants import Verbosity
+from utilities.wcconstants import Verbosity
 from interface import constants as C
 
 

@@ -1,4 +1,4 @@
-from io.wctmp_file import WoodchipperTemplatingFile as WCFile
+from models.wctmp_file import WoodchipperTemplatingFile as WCFile
 
 class WoodchipperTokenFile(WCFile):
     def __init__(self, file_path, replacement_text=None):

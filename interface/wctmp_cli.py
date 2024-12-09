@@ -1,9 +1,8 @@
-import wctmp_request as WCParser
+import interface.wctmp_request as WCParser
 from utilities.wcutil import WoodchipperSettingsFile as WCProfile
 from utilities.wcprinter import WoodchipperPrinter as WCPrinter
 from utilities.wcconstants import Verbosity
-from interface.constants import MODE
-
+import interface.constants as C
 
 class WoodchipperTemplateCommandLineInterface:
     def __init__(self):
@@ -25,8 +24,8 @@ class WoodchipperTemplateCommandLineInterface:
     def display_results(self, results):
         self.printer.pr(results, Verbosity.DEBUG)
         self.printer.nl(Verbosity.DEBUG)
-        if not results.data.success:
-            self.printer.error(results.data.error)
+        if not results.success:
+            self.printer.v_frame(C.ERROR.CODE[results.error], None)
         else:
             self.printer.pr(results)
 
@@ -34,10 +33,10 @@ class WoodchipperTemplateCommandLineInterface:
         proceed, out_string, test = self.profile.check_parser(self.request)
         self.printer.verbosity = self.profile.verbosity
         if test:
-            self.request.mode = MODE.TEST
+            self.request.mode = C.MODE.TEST
             self.request.target = test
         elif not proceed:
-            self.request.mode = MODE.NONE
+            self.request.mode = C.MODE.NONE
             self.printer.pr(out_string, Verbosity.RESULTS_ONLY, new_line=False)
             return False
         return True

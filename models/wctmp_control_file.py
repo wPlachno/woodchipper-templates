@@ -1,4 +1,4 @@
-from wctmp_file import WoodchipperTemplatingFile as WCFile
+from models.wctmp_file import KEY, WoodchipperTemplatingFile as WCFile
 
 class WoodchipperTemplatingControlFile(WCFile):
     def __init__(self, file_path):
@@ -12,3 +12,9 @@ class WoodchipperTemplatingControlFile(WCFile):
         with (open(self.path, 'w')
               as text_file):
             text_file.write(self.draft)
+
+    def toNamespace(self):
+        ns = WCFile.toNamespace(self)
+        ns.add(KEY.FILE.CONTROL, self.content)
+        ns.add(KEY.FILE.CONTENT, self.draft)
+        return ns

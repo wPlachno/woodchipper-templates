@@ -1,4 +1,6 @@
 from utilities.wcutil import WoodchipperNamespace as WCNamespace
+from core.wctmp_expander import WoodchipperTemplateExpander as WCExpander
+import interface.constants as C
 
 
 class WoodchipperController:
@@ -13,13 +15,19 @@ class WoodchipperController:
         if self.request.debug:
             self.affect_file_system = False
         self._initialize_results()
-        self.data = None
-        self.results.add("data", self.data)
+        self._handle_request()
 
     def _initialize_results(self):
-        self.results.add("debug", self.request.debug)
-        self.results.add("path", self.request.path)
-        self.results.add("files", [])
+        self.results.add(C.KEY.RESULTS.DEBUG, self.request.debug)
+        self.results.add(C.KEY.RESULTS.ERROR, None)
+        self.results.add(C.KEY.RESULTS.SUCCESS, False)
+        self.results.add(C.KEY.RESULTS.EXPANDER, None)
 
     def _handle_request(self):
-
+        if not self.request.path:
+            self.results.error = C.ERROR.NO_CONTROL_FILE.CODE
+        else:
+            expander = WCExpander(self.request.path)
+            self.results.error = expander.expand()
+            self.results.success = self.results.error is None
+            self.results.expander = expander.toNamespace()
