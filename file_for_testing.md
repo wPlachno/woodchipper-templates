@@ -122,11 +122,11 @@ wctmp file_for_testing.md
 > A control file is a file that includes tokens for controlling the Woodchipper Templating system. 
 > Tokens can be inserted anywhere in a file. They take the shape of "\@\{file_path|[library/replacement text.md|replacement_text]}{\{file_text}\}" without any of the \ characters.
 >
-- The test 4 description in `file_for_testing.md` should read:
+- The test 4 description on line 98 in `file_for_testing.md` should read:
 >This test should extract the text of [control file.md|control file] to its rightful place as a separate file in the working directory.
 
 ### Test 5: Different-Directory Extraction
-This is line 119
+This is line 126
 For this test, we will be extracting the [library/replacement text.md|@{library/replacement text.md|replacement text}{{
 Text that replaces the token when using the Woodchipper Templating script.
 }}] file to `library/replacement text.md`.
@@ -139,7 +139,7 @@ Text that replaces the token when using the Woodchipper Templating script.
 > Text that replaces the token when using the Woodchipper Templating script.
 > 
 
-- Line 120 of `file_for_testing.md`, the description of Test 5, should read:
+- Line 127 of `file_for_testing.md`, the description of Test 5, should read:
 
 > For this test, we will be extracting the [library/replacement text.md|replacement text] file to `library/replacement text.md`.
 
@@ -159,7 +159,7 @@ A relative file is simply a file defined by a file path that is relative to the 
 > A relative file is simply a file defined by a file path that is relative to the current working directory.
 > 
 
-- Line 137 of `file_for_testing.md`, the description of Test 5, should read:
+- The description of test 6 on line 145 of `file_for_testing.md` should read:
 
 > Test Complete.
 
@@ -167,14 +167,61 @@ A relative file is simply a file defined by a file path that is relative to the 
 
 After setup, the library directory should have a file, `test.md`, which states "The test has not been run.". After this test @{library/test.md|has been completed}{{The test has been successfully completed.}}, it should be overwritten to reflect so.
 
+#### Expected
+
+- `library/test.md` should be successfully overwritten with the following content:
+
+> The test has been successfully completed.
+
+- Line 161 of `file_for_testing.md`, the description of Test 7, should read:
+
+> After setup, the library directory should have a file, `test.md`, which states "The test has not been run.". After this test has been completed, it should be overwritten to reflect so.
+
 ### Test 8: Absolute Extraction
 
 This test is to see if [/home/osboxes/Documents/Code/woodchipper-templates/library/absolute path.md|absolute paths] are @{/home/osboxes/Documents/Code/woodchipper-templates/library/absolute path.md|understood}{{
 An absolute path determines a file by listing the parent directories all the way to the root of the file system.
-}}
+}}.
+
+#### Expected
+
+- `/home/osboxes/Documents/Code/woodchipper-templates/library/absolute path.md` should now exist with the following content:
+
+>
+> An absolute path determines a file by listing the parent directories all the way to the root of the file system.
+> 
+
+- Line 175 of `file_for_testing.md`, the description of Test 8, should read:
+
+> This test is to see if [/home/osboxes/Documents/Code/woodchipper-templates/library/absolute path.md|absolute paths] are understood.
 
 ### Test 9: Absolute Extraction to a new Directory
 
-While we now know that absolute paths work, we need to double check that it works with [/home/osboxes/Documents/Code/woodchipper-templates/library/new2/non-existent directory.md|${/home/osboxes/Documents/Code/woodchipper-templates/library/new2/non-existent directory.md|non-existant]{{
-A non-existant directory is not yet created in the current file-structure.
+While we now know that absolute paths work, we need to double check that it works with [/home/osboxes/Documents/Code/woodchipper-templates/library/new2/non-existent directory.md|${/home/osboxes/Documents/Code/woodchipper-templates/library/new2/non-existent directory.md|non-existent]}{{
+A non-existent directory is not yet created in the current file-structure.
 }} directories.
+
+#### Expected
+
+- `/home/osboxes/Documents/Code/woodchipper-templates/library/new2/non-existent directory.md` should now exist with the following content:
+
+>
+> A non-existent directory is not yet created in the current file-structure.
+> 
+
+- Line 191 of `file_for_testing.md`, the description of Test 9, should read:
+
+> While we now know that absolute paths work, we need to double check that it works with [/home/osboxes/Documents/Code/woodchipper-templates/library/new2/non-existent directory.md|non-existent] directories.
+
+## Considerations
+
+This test suite will test as much as possible without varying the control file. If we wrote tests to do so, we would design them to secure: 
+
+- Control files with no tokens.
+  - A control file with no tokens should be handled gracefully, simply stating that script execution completed successfully.
+
+- Large control files
+  - Stress testing machines with different size control files could provide us with some benchmarks for how complex these files can get before the script starts showing wear.
+
+- Incorrectly formated control files
+  - When the user tries to run the script on a file with inconsistent tokens, the script should notify the user, preferably with some information regarding a potential solution- perhaps whether there was an extra or missing set of `end_sequences`.
