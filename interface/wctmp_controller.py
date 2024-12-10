@@ -25,7 +25,7 @@ class WoodchipperController:
 
     def _handle_request(self):
         if not self.request.path:
-            self.results.error = C.ERROR.NO_CONTROL_FILE.CODE
+            self.results.error = WCExpander.buildError(C.ERROR.NO_CONTROL_FILE.CODE)
         else:
             expander = WCExpander(self.request.path)
             self.results.error = expander.expand()

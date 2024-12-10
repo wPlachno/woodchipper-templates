@@ -25,7 +25,7 @@ class WoodchipperTemplateCommandLineInterface:
         self.printer.pr(results, Verbosity.DEBUG)
         self.printer.nl(Verbosity.DEBUG)
         if not results.success:
-            self.printer.v_frame(C.ERROR.CODE[results.error], None)
+            self.printer.v_frame(C.ERROR.CODE[results.error.code], results.error.data)
         else:
             self.printer.pr(results)
 

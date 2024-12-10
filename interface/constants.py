@@ -67,9 +67,24 @@ class ERROR:
                 TAG.FAILURE,                    # V1: RESULTS_ONLY, either SUCCESS or FAILURE
                 f"{TAG.ERROR} Please provide the path to a {clr("Control", COLOR.NAME)} file.",     # V2: Normal user
                 f"{TAG.ERROR} No {clr("Control", COLOR.NAME)} file provided."]     # V3: DEBUG
+    class WOULD_OVERWRITE_FILE:
+        CODE = "877970"
+        DESCRIPTION = [
+                S.EMPTY,                        # V0: SILENT
+                TAG.FAILURE,                    # V1: RESULTS_ONLY, either SUCCESS or FAILURE
+                f"{TAG.ERROR} Would overwrite {clr(S.OP0, COLOR.NAME)} file. Use {clr('-f', COLOR.PATH)} to force the overwrite.",     # V2: Normal user
+                f"{TAG.ERROR} Would overwrite {clr(S.OP0, COLOR.NAME)}."]     # V3: DEBUG
+    class IMPROPER_TOKEN_SYNTAX:
+        CODE = "738483"
+        DESCRIPTION = [
+                S.EMPTY,                        # V0: SILENT
+                TAG.FAILURE,                    # V1: RESULTS_ONLY, either SUCCESS or FAILURE
+                f"{TAG.ERROR} The file is formatted incorrectly. The tokens cannot be translated. Double check that for each '#{{}}{{{{', there exists a corresponding '}}}}' and no more.",     # V2: Normal user
+                f"{TAG.ERROR} Incorrect token syntax with the control file."]     # V3: DEBUG
 
     CODE = {
-        "786770": NO_CONTROL_FILE.DESCRIPTION
+        "786770": NO_CONTROL_FILE.DESCRIPTION,
+        "877970": WOULD_OVERWRITE_FILE.DESCRIPTION
     }
 
 class OUT:
