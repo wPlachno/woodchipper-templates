@@ -5,9 +5,9 @@ from utilities.wcconstants import Verbosity
 import interface.constants as C
 
 class WoodchipperTemplateCommandLineInterface:
-    def __init__(self):
+    def __init__(self, parser=WCParser.build_parser):
         self.profile = WCProfile()
-        self.parser = WCParser.build_parser()
+        self.parser = parser()
         WCProfile.setup_argparse_parser_with_config(self.parser)
         self.printer = WCPrinter(self.profile.verbosity)
         self.request = None
